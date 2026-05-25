@@ -1,0 +1,65 @@
+{
+  "expo": {
+    "name": "Style Verse Fashion",
+    "slug": "style-verse-fashion",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/appLogo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.styleversefashion.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.rmtechsolution.styleversefashion",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/appLogo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "POST_NOTIFICATIONS",
+        "INTERNET",
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "BLUETOOTH_CONNECT",
+        "BLUETOOTH_SCAN"
+      ]
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging",
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8e2438db-68ce-437f-87a2-c46e04e755f4"
+      }
+    },
+    "owner": "rm-tech-solution",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8e2438db-68ce-437f-87a2-c46e04e755f4",
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD"
+    },
+    "notification": {
+      "icon": "./assets/logo.png",
+      "color": "#ffffff"
+    },
+    "rmtech": {
+        "merchantId": "11",
+        "baseUrl": "https://api.rmtechsolution.com/"
+      }
+  }
+}
