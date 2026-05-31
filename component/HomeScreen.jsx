@@ -117,7 +117,6 @@ export default function HomeScreen({
   const registerFCM = async (userId) => {
     try {
       const token = await messaging().getToken();
-      console.log("FCM TOKEN:", token);
 
       await fetch("https://api.rmtechsolution.com/saveToken.php", {
         method: "POST",
@@ -144,7 +143,6 @@ export default function HomeScreen({
   /* ================= TOKEN REFRESH ================= */
   useEffect(() => {
     const unsubscribe = messaging().onTokenRefresh((token) => {
-      console.log("New Token:", token);
 
       fetch("https://api.rmtechsolution.com/saveToken.php", {
         method: "POST",
@@ -164,8 +162,7 @@ export default function HomeScreen({
   /* ================= FOREGROUND ================= */
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log("Foreground:", remoteMessage);
-
+ 
       Alert.alert(
         remoteMessage?.notification?.title || "Notification",
         remoteMessage?.notification?.body || ""
@@ -180,8 +177,7 @@ export default function HomeScreen({
     // Background click
     const unsubscribe = messaging().onNotificationOpenedApp(
       (remoteMessage) => {
-        console.log("Opened from background:", remoteMessage);
-
+  
         navigation.navigate("Home"); // change if needed
       }
     );
@@ -191,7 +187,7 @@ export default function HomeScreen({
       .getInitialNotification()
       .then((remoteMessage) => {
         if (remoteMessage) {
-          console.log("Opened from quit:", remoteMessage);
+
           navigation.navigate("Home");
         }
       });
@@ -221,10 +217,7 @@ export default function HomeScreen({
   /* ================= UI ================= */
   /* ================= UI ================= */
 
-  console.log(
-    uiConfig?.homeBgColorGradient,
-    "uiConfig?.homeBgColorGradienthhhh"
-  );
+
 
   const getGradientColors = () => {
     let gradientData = uiConfig?.homeBgColorGradient;
@@ -233,7 +226,7 @@ export default function HomeScreen({
     if (typeof gradientData === "string") {
       try {
         gradientData = JSON.parse(gradientData);
-        console.log("Parsed Gradient:", gradientData);
+
       } catch (e) {
         console.log("Gradient parse error:", e);
       }
@@ -251,18 +244,14 @@ export default function HomeScreen({
             color !== "undefined"
         );
 
-      console.log("Filtered Colors:", colors);
-
       if (colors.length >= 2) {
-        console.log("Using gradient:", colors);
+  
         return colors;
       }
     }
 
     // Fallback solid color
     const solidColor = uiConfig?.homeBgColor || "#0B0B0F";
-
-    console.log("Using solid color:", solidColor);
 
     return [solidColor, solidColor];
   };
@@ -306,8 +295,7 @@ export default function HomeScreen({
 
   const gradientColors = getGradientColors();
   const quickActionTextColor = getTextColorForBackground(gradientColors?.[0]);
-  console.log(uiConfig, "uiConfighhh");
-
+ 
   const socialData = Array.isArray(uiConfig?.socialPages)
     ? uiConfig?.socialPages?.[0]
     : {};
@@ -340,7 +328,6 @@ export default function HomeScreen({
 
   const staticOfferCards = Array.isArray(uiConfig?.homeSectionOffers) ? uiConfig?.homeSectionOffers : [];
 
-  console.log(gradientColors, "gradientColors");
 
 
   return (
