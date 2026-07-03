@@ -15,11 +15,9 @@ const useNetworkStatus = (): UseNetworkStatusReturn => {
     try {
       setIsChecking(true);
       const state = await NetInfo.fetch();
-      
-      // Only mark as network lost if explicitly confirmed by device
-      setIsNetworkLost(state.isConnected === false);
+      const hasConnection = Boolean(state.isConnected) && state.isInternetReachable !== false;
+      setIsNetworkLost(!hasConnection);
     } catch (error) {
-      // On error, assume we're connected (safer than false positive)
       setIsNetworkLost(false);
     } finally {
       setIsChecking(false);
@@ -27,16 +25,28 @@ const useNetworkStatus = (): UseNetworkStatusReturn => {
   };
 
   useEffect(() => {
-    // Only check when app returns to foreground
-    const subscription = AppState.addEventListener('change', (state: AppStateStatus) => {
-      if (state === 'active') {
-        // Only check once when returning to foreground
+    let isMounted = true;
+
+    const handleAppStateChange = (nextState: AppStateStatus) => {
+      if (nextState === 'active') {
         checkNetworkConnection();
       }
+    };
+
+    const unsubscribeNetInfo = NetInfo.addEventListener((state) => {
+      if (!isMounted) return;
+
+      const hasConnection = Boolean(state.isConnected) && state.isInternetReachable !== false;
+      setIsNetworkLost(!hasConnection);
     });
 
+    checkNetworkConnection();
+    const appStateSubscription = AppState.addEventListener('change', handleAppStateChange);
+
     return () => {
-      subscription.remove();
+      isMounted = false;
+      unsubscribeNetInfo();
+      appStateSubscription.remove();
     };
   }, []);
 
